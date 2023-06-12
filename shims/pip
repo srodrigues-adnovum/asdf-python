@@ -40,7 +40,12 @@ resolve_pip() {
 }
 
 search_pip_bin() {
-  local probably_pip="$(asdf where python)/bin/pip"
+  local probably_pip;
+
+  case "$(uname -s)" in
+    Windows_NT | MINGW64*) probably_pip="$(asdf where python)/Scripts/pip.exe" ;;               
+    *) probably_pip="$(asdf where python)/bin/pip" ;;
+  esac 
 
   if [ -x "$probably_pip" ]; then
     echo "$probably_pip"

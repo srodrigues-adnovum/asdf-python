@@ -7,4 +7,17 @@ list_all() {
   $(python_build_path) --definitions | tr '\n' ' '
 }
 
-list_all
+list_all_win() {
+ curl -s https://www.nuget.org/packages/python/ | grep "a href=\"/packages/python/" | grep "title=" | cut -d '"' -f4 | head -n -2
+}
+
+case "$(uname -s)" in
+  Windows_NT | MINGW64*) 
+    echo "$(list_all_win) 2.7.18 2.7.18-rc1 2.7.17 2.7.17-rc1 2.7.16 2.7.15 2.7.14 2.7.13 2.7.12"  | tr '\n' ' '
+    ;;               
+  *) 
+    list_all 
+    ;;
+esac 
+
+

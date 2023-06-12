@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+case "$(uname -s)" in
+  Windows_NT | MINGW64*) 
+    echo ". Scripts"
+    ;;               
+  *) 
+    echo "bin"
+    ;;
+esac 
