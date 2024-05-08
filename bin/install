@@ -54,13 +54,18 @@ win_install_python() {
     curl "https://globalcdn.nuget.org/packages/python2.${version}.nupkg" -o "${tmp_download_dir}/python.${version}.zip"
   fi
   unzip "${tmp_download_dir}/python.${version}.zip" -d "${tmp_download_dir}/${version}"  
-  
+
   echo INFO "Copying binaries"
   cp -R "${tmp_download_dir}/${version}/tools/." "${install_path}"
   chmod +x "${install_path}/python.exe"
+
+  # Check if version starts with "3." and if "${install_path}/python3.exe" does not exist
+  if [[ "$version" == 3.* && ! -f "${install_path}/python3.exe" ]]; then
+    cp "${install_path}/python.exe" "${install_path}/python3.exe"
+  fi
+
   #install pip in nuget python
   "${install_path}/python.exe" -m pip install --force-reinstall pip
-  cp "${install_path}/Scripts/pip.exe" "${install_path}/pip.exe"
 }
 
 case "$(uname -s)" in
